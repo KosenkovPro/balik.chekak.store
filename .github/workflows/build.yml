@@ -47,11 +47,20 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      # На разных образах раннера cmdline-tools лежат то в `cmdline-tools/latest/bin`,
+      # то в версионированном каталоге, поэтому ищем `sdkmanager` поиском по файлу.
       - name: Install Android SDK packages
         run: |
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
-          yes | sdkmanager --licenses > /dev/null
-          sdkmanager "platforms;android-36" "build-tools;36.0.0"
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          SDKMANAGER="$(find "$SDK_ROOT" -type f -name sdkmanager -path '*/bin/*' 2>/dev/null | sort | tail -n1)"
+          if [ -z "$SDKMANAGER" ]; then
+            echo "sdkmanager не найден в $SDK_ROOT" >&2
+            exit 1
+          fi
+          echo "Используем $SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses > /dev/null
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
 
       # Контекст `secrets` недоступен в `if` на уровне шага, поэтому секреты
       # передаём через `env`, а проверку делаем уже внутри скрипта.
