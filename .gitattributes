@@ -1,0 +1,15 @@
+# Переводы строк: в репозитории всё хранится с LF, поэтому CI на Linux
+# и локальная сборка видят одинаковые файлы.
+* text=auto eol=lf
+
+# Windows-пакетные файлы должны остаться с CRLF.
+*.bat text eol=crlf
+
+# Двоичные файлы не трогаем.
+*.jar binary
+*.png binary
+*.jks binary
+*.keystore binary
+*.traineddata binary
+*.so binary
+*.pdf binary

@@ -1,0 +1,47 @@
+# Личные банковские выписки и любые приватные данные — НИКОГДА не пушить
+.secret/
+.secret
+**/.secret/
+**/.secret/**
+*.secret/
+
+# Gradle / KMP / Kotlin
+.gradle/
+build/
+*/build/
+kotlin-js-store/
+.kotlin/
+captures/
+local.properties
+*.hprof
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Xcode / iOS
+xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+*.ipa
+*.mobileprovision
+*.xcuserstate
+
+# Подпись Android
+*.jks
+*.keystore
+keystore.properties
+
+# Прочее
+*.log
+.DS_Store
+
+# Временные артефакты проверки OCR (сканы, дампы распознавания, стенды)
+.tmp-ocr/

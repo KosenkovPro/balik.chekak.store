@@ -1,0 +1,68 @@
+[versions]
+agp = "8.13.2"
+kotlin = "2.2.10"
+ksp = "2.2.10-2.0.2"
+composeMultiplatform = "1.9.0"
+room = "2.8.5"
+sqlite = "2.7.0"
+koin = "4.2.2"
+coroutines = "1.10.2"
+kotlinxDatetime = "0.6.2"
+kotlinxSerialization = "1.9.0"
+pdfboxAndroid = "2.0.27.0"
+pdfbox = "3.0.8"
+# Tesseract 5 через JavaCPP: движок и нативные библиотеки для Android.
+javacpp = "1.5.11"
+tesseract = "5.5.0-1.5.11"
+leptonica = "1.85.0-1.5.11"
+androidxActivityCompose = "1.9.3"
+androidxCoreKtx = "1.15.0"
+androidxLifecycle = "2.8.7"
+androidxDocumentFile = "1.0.1"
+
+# minSdk 23 (Android 6.0) — нижний предел, который требуют зависимости (Koin 4.2).
+# Снижение открывает установку на старых Huawei/EMUI без Google-сервисов.
+# targetSdk 35 оставляем: установку блокирует только слишком старый targetSdk.
+minSdk = "23"
+compileSdk = "36"
+targetSdk = "35"
+
+[libraries]
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+
+pdfbox-android = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfboxAndroid" }
+pdfbox = { module = "org.apache.pdfbox:pdfbox", version.ref = "pdfbox" }
+
+# OCR на Android: Tesseract 5.5 и Leptonica из JavaCPP-пресетов.
+# Классификатор android-* несёт нативные библиотеки под нужную архитектуру.
+javacpp = { module = "org.bytedeco:javacpp", version.ref = "javacpp" }
+javacpp-presets = { module = "org.bytedeco:javacpp-presets", version.ref = "javacpp" }
+leptonica = { module = "org.bytedeco:leptonica", version.ref = "leptonica" }
+tesseract = { module = "org.bytedeco:tesseract", version.ref = "tesseract" }
+
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-documentfile = { module = "androidx.documentfile:documentfile", version.ref = "androidxDocumentFile" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
