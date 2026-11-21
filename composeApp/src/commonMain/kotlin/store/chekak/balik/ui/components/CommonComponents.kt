@@ -150,7 +150,7 @@ fun CategoryRow(
                     trackColor = MaterialTheme.colorScheme.surfaceVariant,
                 )
                 Text(
-                    text = "${slice.share.formatOneDecimal()}%",
+                    text = slice.share.formatOneDecimal(),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(start = 8.dp),
