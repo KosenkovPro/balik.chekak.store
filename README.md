@@ -13,7 +13,7 @@
 | DI | Koin 4.2 |
 | JDK | 21 LTS (`jvmToolchain(21)`) |
 | Bundle ID | `store.chekak.balik` |
-| Платформы | Android (APK/AAB), iOS (unsigned .ipa → AltStore/SideStore, затем App Store) |
+| Платформы | Android (APK/AAB) — рабочая сборка; iOS — порт в процессе (см. «Сборка → iOS») |
 
 ---
 
@@ -28,7 +28,8 @@
   сеть не нужна.
   * Android — Tesseract 5.5 (`org.bytedeco:tesseract`) поверх картинки страницы,
     отрендеренной PDFBox-Android;
-  * iOS — системный Vision (`VNRecognizeTextRequest`) поверх снимка страницы из PDFKit;
+  * iOS — системный Vision (`VNRecognizeTextRequest`) поверх снимка страницы из PDFKit
+    (написано, но ещё не собрано под Kotlin/Native — см. «Сборка → iOS»);
   * JVM (desktop) — распознавания нет, там только тесты.
 
   Страница рендерится в **300 dpi**: текст справки набран кеглем 7 pt, и при 200 dpi
@@ -171,13 +172,18 @@ tools/generate_icons.ps1        генерация иконок приложен
 
 ### iOS
 
+> **Статус: iOS-таргет ещё не портирован под Kotlin/Native.** Общий код компилируется
+> для iOS с ошибками: в `commonMain` остались JVM-only вызовы (`System.currentTimeMillis`,
+> `Math`, `String.format`), в `iosMain` недописаны части на PDFKit и Vision. Джоб
+> **Actions → Build → iOS unsigned IPA** запускается и показывает прогресс, но пока
+> падает и не роняет остальной воркфлоу. Готовый `.ipa` в релиз не входит —
+> релизный артефакт сейчас только Android.
+
 Только на macOS с Xcode:
 
 ```bash
 open iosApp/iosApp.xcodeproj
 ```
-
-Либо из CI: вкладка **Actions → Build** собирает unsigned `.ipa`.
 
 Перед сборкой в Xcode обновляется общий конфиг (идентификаторы, путь к фреймворку
 `ComposeApp`, параметры toolchain):
@@ -186,7 +192,8 @@ open iosApp/iosApp.xcodeproj
 ./gradlew :iosApp:xcodeConfig
 ```
 
-Для установки на устройство: `CheKak-Buck-unsigned.ipa` → AltStore / SideStore / Sideloadly.
+Для установки на устройство (когда порт будет закончен): `CheKak-Buck-unsigned.ipa`
+→ AltStore / SideStore / Sideloadly.
 
 ### Тесты
 

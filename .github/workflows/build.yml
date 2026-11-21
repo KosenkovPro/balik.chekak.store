@@ -105,6 +105,12 @@ jobs:
     name: iOS unsigned IPA
     runs-on: macos-latest
     needs: test
+    # iOS-таргет ещё не портирован под Kotlin/Native: в commonMain остались
+    # JVM-only вызовы (System.currentTimeMillis, Math, String.format), а в
+    # iosMain — недописанные PDFKit/Vision-части. Джоб запускается, чтобы
+    # было видно прогресс, но не роняет весь воркфлоу: релизный Android-APK
+    # собирается и проверяется независимо от него.
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
