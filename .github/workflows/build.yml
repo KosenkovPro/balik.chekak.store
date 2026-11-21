@@ -51,15 +51,17 @@ jobs:
       # то в версионированном каталоге, поэтому ищем `sdkmanager` поиском по файлу.
       - name: Install Android SDK packages
         run: |
-          set -euo pipefail
+          set -eu
           SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
-          SDKMANAGER="$(find "$SDK_ROOT" -type f -name sdkmanager -path '*/bin/*' 2>/dev/null | sort | tail -n1)"
+          SDKMANAGER="$(find "$SDK_ROOT" -type f -name sdkmanager -path '*/bin/*' 2>/dev/null | sort | tail -n1 || true)"
           if [ -z "$SDKMANAGER" ]; then
             echo "sdkmanager не найден в $SDK_ROOT" >&2
             exit 1
           fi
           echo "Используем $SDKMANAGER"
-          yes | "$SDKMANAGER" --licenses > /dev/null
+          # `yes` ловит SIGPIPE, когда sdkmanager закрывает stdin, — это норма,
+          # поэтому код возврата именно этой строки игнорируем.
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
           "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
 
       # Контекст `secrets` недоступен в `if` на уровне шага, поэтому секреты
