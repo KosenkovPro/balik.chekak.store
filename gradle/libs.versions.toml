@@ -5,7 +5,10 @@ ksp = "2.2.10-2.0.2"
 composeMultiplatform = "1.9.0"
 room = "2.8.5"
 sqlite = "2.7.0"
-koin = "4.2.2"
+# Koin держим на 4.1.1: 4.2.x собран компилятором Kotlin 2.3.20, а KLIB
+# этих версий имеет ABI 2.3.0 — Kotlin/Native 2.2.10 умеет читать только
+# ABI не выше 2.2.0, и сборка iOS падала с «incompatible ABI version».
+koin = "4.1.1"
 coroutines = "1.10.2"
 kotlinxDatetime = "0.6.2"
 kotlinxSerialization = "1.9.0"
@@ -20,7 +23,7 @@ androidxCoreKtx = "1.15.0"
 androidxLifecycle = "2.8.7"
 androidxDocumentFile = "1.0.1"
 
-# minSdk 23 (Android 6.0) — нижний предел, который требуют зависимости (Koin 4.2).
+# minSdk 23 (Android 6.0) — нижний предел, который требуют зависимости (Koin 4.x).
 # Снижение открывает установку на старых Huawei/EMUI без Google-сервисов.
 # targetSdk 35 оставляем: установку блокирует только слишком старый targetSdk.
 minSdk = "23"
